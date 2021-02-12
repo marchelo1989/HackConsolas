@@ -7,6 +7,9 @@ package Cl.Hack.Consolas.GUI;
 
 import Cl.Hack.Consolas.Conf.Confi;
 import Cl.Hack.Consolas.FUN.Directorio;
+import java.io.File;
+import javax.swing.JComboBox;
+import javax.swing.filechooser.FileSystemView;
 
 /**
  *
@@ -21,10 +24,21 @@ public class FrHomePS3 extends javax.swing.JFrame {
      */
     public FrHomePS3() {
         initComponents();
-        urlUSB=d.buscarDirectrorio();
-        txtUSB.setText("Unidad USB Seleccionada "+urlUSB);
+        USB();
+        jButton1.setEnabled(false);
+        jtaMensaje.setEditable(false);
     }
 
+    public void USB(){
+        File unidades[] = File.listRoots();
+        jcbUSB.removeAllItems();
+        for(int i=0;i<unidades.length;i++){
+//            System.out.println(unidades[i]);
+            System.out.println(FileSystemView.getFileSystemView().getSystemDisplayName (unidades[i]));
+            jcbUSB.addItem(FileSystemView.getFileSystemView().getSystemDisplayName (unidades[i]));
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -37,35 +51,28 @@ public class FrHomePS3 extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtaMensaje = new javax.swing.JTextArea();
         txtUSB = new javax.swing.JLabel();
+        jcbUSB = new javax.swing.JComboBox<>();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Limpiar PS3 dejar Original");
+        jPanel1.setPreferredSize(new java.awt.Dimension(800, 600));
 
-        jButton1.setText("Archivos");
+        jLabel1.setText("Crear Carpetas en USB:");
+
+        jButton1.setText("Carpetas");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Guia");
-
-        jLabel2.setText("Instalacion de HEN");
-
-        jButton3.setText("Archivos");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        jButton4.setText("Guia");
+        jtaMensaje.setColumns(20);
+        jtaMensaje.setRows(5);
+        jScrollPane1.setViewportView(jtaMensaje);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -73,20 +80,13 @@ public class FrHomePS3 extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton4)))
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addComponent(jButton1)
+                .addContainerGap(260, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -94,17 +94,21 @@ public class FrHomePS3 extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addContainerGap(173, Short.MAX_VALUE))
+                    .addComponent(jButton1))
+                .addGap(64, 64, 64)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE))
         );
 
         txtUSB.setText("jLabel2");
+
+        jcbUSB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jButton5.setText("Seleccionar USB");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -112,20 +116,27 @@ public class FrHomePS3 extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jcbUSB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtUSB)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txtUSB)
-                .addGap(67, 67, 67))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txtUSB)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtUSB)
+                    .addComponent(jcbUSB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5))
                 .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -134,19 +145,52 @@ public class FrHomePS3 extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        d.crearDirec(urlUSB,Confi.PS3Update);
-        String url3 =Confi.UrlPS3+Confi.UrlPS3UpdateOfi+Confi.PS3UpdateFile;
-        String url4= urlUSB+"/"+Confi.PS3Update+"/"+Confi.PS3UpdateFile;
-        d.copiarArchivo(url3, url4);
+        String mensaje ="";
+        mensaje="Carpetas Creadas:";
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3Update);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3Backup);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3PartidasPS3);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3Temas);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3Musica);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3Imagene);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3Video);
+        
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3Exdata);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3Games);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3Packages);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3PS2ISO);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3PS3ISO);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3PSPSavedata);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3PSPISO);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3PSXISO);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3ROMS);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3USERLIST);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3PS2SD);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3PSV);
+        
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3Atari2600);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3GameBoy);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3GameBoyColor);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3GameBoyAdvance);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3NintendoNes);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3SuperNintendoSNES);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3SegaGameGear);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3SegaMasterSystem);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3SegaMEgaDriveGenesis);
+        mensaje=mensaje+"\n"+d.crearDirec(urlUSB,Confi.PS3Mame);
+//        d.copiarArchivo(Confi.InfoImgPs3,urlUSB);
+        jtaMensaje.setText(mensaje);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        d.crearDirec(urlUSB,Confi.PS3Update);
-        String url3 =Confi.UrlPS3+Confi.UrlPS3UpdateModif+Confi.PS3UpdateFile;
-        String url4= urlUSB+"/"+Confi.PS3Update+"/"+Confi.PS3UpdateFile;
-        d.copiarArchivo(url3, url4);
-    }//GEN-LAST:event_jButton3ActionPerformed
+        String usbselect=(String) jcbUSB.getSelectedItem();
+        String usbselect2=usbselect.substring(usbselect.length() - 4);
+        urlUSB=usbselect2.replaceAll("[()]","");
+//        txtUSB.setText("Unidad USB Seleccionada "+usbselect);
+        txtUSB.setText(usbselect);
+        jButton1.setEnabled(true);
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -185,12 +229,12 @@ public class FrHomePS3 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox<String> jcbUSB;
+    private javax.swing.JTextArea jtaMensaje;
     private javax.swing.JLabel txtUSB;
     // End of variables declaration//GEN-END:variables
 }

@@ -19,6 +19,7 @@ import javax.swing.JFileChooser;
  * @author march
  */
 public class Directorio {
+    static File[] oldListRoot = File.listRoots();
     
     public boolean copiarArchivo(String fromFile, String toFile) {
         File origin = new File(fromFile);
@@ -26,7 +27,9 @@ public class Directorio {
         if (origin.exists()) {
             try {
                 InputStream in = new FileInputStream(origin);
+                System.out.println("Origin de "+origin.toString());
                 OutputStream out = new FileOutputStream(destination);
+                System.out.println("Destino de "+destination.toString());
                 // We use a buffer for the copy (Usamos un buffer para la copia).
                 byte[] buf = new byte[1024];
                 int len;
@@ -37,6 +40,7 @@ public class Directorio {
                 out.close();
                 return true;
             } catch (IOException ioe) {
+                System.out.println(ioe.toString());
                 ioe.printStackTrace();
                 return false;
             }
@@ -56,14 +60,40 @@ public class Directorio {
         return url;
     }
     
-    public static void crearDirec(String url,String carpeta){
+    public static String crearDirec(String url,String carpeta){
+        String resp="";
         File directorio = new File(url +"/"+ carpeta );
         if (!directorio.exists()) {
             if (directorio.mkdirs()) {
+                resp=directorio.toString();
                 System.out.println("Directorio creado");
             } else {
                 System.out.println("Error al crear directorio");
             }
         }
+        return resp;
+    }
+    
+    public static void waitForNotifying() {
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (File.listRoots().length > oldListRoot.length) {
+                        System.out.println("new drive detected");
+                        oldListRoot = File.listRoots();
+                        System.out.println("drive "+oldListRoot[oldListRoot.length-1]+" detected");
+                    } else if (File.listRoots().length < oldListRoot.length) {
+                        System.out.println(oldListRoot[oldListRoot.length-1]+" drive removed");
+                        oldListRoot = File.listRoots();
+                    }
+                }
+            }
+        });
+        t.start();
     }
 }

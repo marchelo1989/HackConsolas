@@ -23,15 +23,15 @@ public class HackConsolas {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here      
+        // TODO code application logic here    
         if(buscarUpdate()==false){
-            new FrHomePS3().setVisible(true);
-        }
+        new FrHomePS3().setVisible(true);
+    }
 //        Directorio d = new Directorio();
         //Buscar directorio
 //        String url=d.buscarDirectrorio();
 //        System.out.println(url);
-        
+    
         //Crear carpeta PS3
 //        d.crearDirec(url,Confi.PS3Update);
         
@@ -39,7 +39,7 @@ public class HackConsolas {
 //        String url3 =Confi.UrlPS3+"/UPDATE/Oficial/"+Confi.PS3UpdateFile;
 //        String url4= url+"/"+Confi.PS3Update+"/"+Confi.PS3UpdateFile;
 //        d.copiarArchivo(url3, url4);
-    }
+}
     public static boolean buscarUpdate(){
         boolean resp;
         if(Actualizacion.verificarConexion()){
