@@ -21,33 +21,32 @@ import javax.swing.JFileChooser;
 public class Directorio {
     static File[] oldListRoot = File.listRoots();
     
-    public boolean copiarArchivo(String fromFile, String toFile) {
-        File origin = new File(fromFile);
-        File destination = new File(toFile);
-        if (origin.exists()) {
+    public void CopiarArchivos(String sourceFile, String destinationFile) {
+
             try {
-                InputStream in = new FileInputStream(origin);
-                System.out.println("Origin de "+origin.toString());
-                OutputStream out = new FileOutputStream(destination);
-                System.out.println("Destino de "+destination.toString());
-                // We use a buffer for the copy (Usamos un buffer para la copia).
-                byte[] buf = new byte[1024];
-                int len;
-                while ((len = in.read(buf)) > 0) {
-                    out.write(buf, 0, len);
+
+                File inFile = new File(sourceFile);
+                File outFile = new File(destinationFile);
+
+                FileInputStream in = new FileInputStream(inFile);
+                FileOutputStream out = new FileOutputStream(outFile);
+
+                byte[] buffer = new byte[1024];
+                int c;
+
+                while ((c = in.read(buffer)) != -1) {
+                    out.write(buffer, 0, c);
                 }
+
+                out.flush();
                 in.close();
                 out.close();
-                return true;
-            } catch (IOException ioe) {
-                System.out.println(ioe.toString());
-                ioe.printStackTrace();
-                return false;
+
+            } catch (IOException e) {
+                System.out.println("Hubo un error de entrada/salida!!!");
+//            Log.e(TAG, "Hubo un error de entrada/salida!!!");
             }
-        } else {
-            return false;
         }
-    }
     
     public static String buscarDirectrorio(){
         JFileChooser fileChooser = new JFileChooser();
